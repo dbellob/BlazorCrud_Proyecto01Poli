@@ -1,0 +1,13 @@
+services:
+  blazorcrud_proyecto01:
+    image: ${DOCKER_REGISTRY-}blazorcrudproyecto01
+    build:
+      context: .
+      dockerfile: BlazorCrud_Proyecto01/Dockerfile
+    ports:
+        - "8003:8080"
+    environment:
+        - aspnetcore_environment=Development
+        - connectionStrings__DefaultConnection=Server=host.docker.internal;Database=BlazorCrudDB;User=sa; Password=MiClaveSegura!123;TrustServerCertificate=True;
+
+
