@@ -5,9 +5,24 @@ services:
       context: .
       dockerfile: BlazorCrud_Proyecto01/Dockerfile
     ports:
-        - "8003:8080"
+      - "8003:8080"
     environment:
-        - aspnetcore_environment=Development
-        - connectionStrings__DefaultConnection=Server=host.docker.internal;Database=BlazorCrudDB;User=sa; Password=MiClaveSegura!123;TrustServerCertificate=True;
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=BlazorCrudDB;User Id=sa;Password=MiClaveSegura!123;TrustServerCertificate=True;
+    depends_on:
+      - sqlserver
 
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=MiClaveSegura!123
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
 
+volumes:
+  sqlserver_data:
